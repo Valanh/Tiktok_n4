@@ -1,8 +1,15 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:toptop/views/MainPage.dart';
+import 'package:toptop/views/tabhomes/addcameratab/CameraPage.dart';
 import 'package:toptop/views/tabhomes/profiletab/ProfilePage.dart';
 
-void main() {
+late List<CameraDescription> cameras;
+
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -15,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: ProFilePage(),
+      home: CameraPage(),
     );
   }
 }

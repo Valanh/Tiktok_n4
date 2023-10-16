@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toptop/views/MainPage.dart';
 import 'package:toptop/views/tabhomes/addcameratab/CameraPage.dart';
 
 class ButtonEditProfile extends StatelessWidget {
@@ -28,9 +30,9 @@ class ButtonEditProfile extends StatelessWidget {
 
   onclick(BuildContext context) {
     if(check == true){
-
+      Navigator.push(context, CupertinoPageRoute(builder: (context) => MainPage()));
     }else{
-
     }
   }
+
 }

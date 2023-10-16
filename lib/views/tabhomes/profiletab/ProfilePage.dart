@@ -11,16 +11,6 @@ class ProFilePage extends StatefulWidget {
   State<ProFilePage> createState() => _ProFilePageState();
 }
 
-
-//Edit profile
-EditProfile(){
-return null;
-}
-
-AddFrined(){
-return null;
-}
-
 class _ProFilePageState extends State<ProFilePage>
     with TickerProviderStateMixin {
   bool isBio = false; //biến check để hiện thị mô tả hoặc thêm mô tả thông tin
@@ -43,6 +33,7 @@ class _ProFilePageState extends State<ProFilePage>
                           icon: Icon(
                             Icons.menu,
                             color: Colors.pink,
+                            size: 15,
                           )),
                       //Tên người dùng
                       Text(
@@ -55,6 +46,7 @@ class _ProFilePageState extends State<ProFilePage>
                           icon: Icon(
                             Icons.logout,
                             color: Colors.pink,
+                            size: 15,
                           )),
                     ],
                   ),
@@ -89,6 +81,9 @@ class _ProFilePageState extends State<ProFilePage>
                     "Username",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -96,64 +91,67 @@ class _ProFilePageState extends State<ProFilePage>
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                       width: MediaQuery.of(context).size.width *0.15,
+                        width: MediaQuery.of(context).size.width * 0.15,
                         child: Column(
                           children: [
                             Text(
                               "1",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 10),
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
                             Text(
                               "Following",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
                       ),
                       Text(
                         "|",
-                        style: TextStyle(color: Colors.grey.withOpacity(0.8), fontSize: 10),
+                        style: TextStyle(
+                            color: Colors.grey.withOpacity(0.8), fontSize: 10),
                       ),
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width *0.15,
+                        width: MediaQuery.of(context).size.width * 0.15,
                         child: Column(
                           children: [
                             Text(
                               "1",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 10),
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
-                            Text(
-                              "Follower",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
-                            )
+                            Text("Follower",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                ))
                           ],
                         ),
                       ),
                       Text(
                         "|",
-                        style: TextStyle(color: Colors.grey.withOpacity(0.8), fontSize: 10),
+                        style: TextStyle(
+                            color: Colors.grey.withOpacity(0.8), fontSize: 10),
                       ),
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width *0.15,
+                        width: MediaQuery.of(context).size.width * 0.15,
                         child: Column(
                           children: [
                             Text(
                               "1",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 10),
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
                             Text(
                               "Like",
-                              style:
-                                  TextStyle(color: Colors.grey.withOpacity(0.8), fontSize: 12),
+                              style: TextStyle(
+                                  color: Colors.grey.withOpacity(0.8),
+                                  fontSize: 15),
                             )
                           ],
                         ),
@@ -162,18 +160,19 @@ class _ProFilePageState extends State<ProFilePage>
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
                   //botton editt
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //Sửa hồ sơ
-                      ButtonEditProfile( check: true, nameButton: "Edit profile"),
+                      ButtonEditProfile(
+                          check: true, nameButton: "Edit profile"),
                       SizedBox(
                         width: 10,
                       ),
-                      ButtonEditProfile( check: false, nameButton: "Add frined"),
+                      ButtonEditProfile(check: false, nameButton: "Add frined"),
                       //Sửa hồ sơ
                     ],
                   ),

@@ -10,6 +10,17 @@ class LikeVideoTab extends StatefulWidget {
 class _LikeVideoTabState extends State<LikeVideoTab> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return GridView.builder(
+        gridDelegate:
+        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(0.4),
+            child: Container(
+              color: Colors.blue,
+            ),
+          );
+        });
   }
 }
