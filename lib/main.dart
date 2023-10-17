@@ -1,8 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:toptop/views/MainPage.dart';
-import 'package:toptop/views/tabhomes/addcameratab/CameraPage.dart';
-import 'package:toptop/views/tabhomes/profiletab/ProfilePage.dart';
+import 'package:toptop/views/screens/MainPage.dart';
+import 'package:toptop/views/screens/addcameratab/CameraPage.dart';
+import 'package:toptop/views/screens/profiletab/ProfilePage.dart';
+import 'package:toptop/views/tablogins/LoginPage.dart';
 
 late List<CameraDescription> cameras;
 
@@ -20,9 +21,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Top Top',
       debugShowCheckedModeBanner: false,
-      home: CameraPage(),
+      home: LoginPage(),
     );
   }
 }

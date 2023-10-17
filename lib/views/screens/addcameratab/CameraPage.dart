@@ -77,7 +77,7 @@ class _CameraPageState extends State<CameraPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                        onTap: () => {SystemNavigator.pop()},
+                        onTap: () => {Navigator.pop(context)},
                         child: Icon(
                           Icons.close,
                           color: Colors.white,

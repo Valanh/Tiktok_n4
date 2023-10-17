@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:toptop/views/tabhomes/profiletab/tabprofiles/FavoriteVideos.dart';
-import 'package:toptop/views/tabhomes/profiletab/tabprofiles/LikeVideo.dart';
-import 'package:toptop/views/tabhomes/profiletab/tabprofiles/MyVideos.dart';
-import 'package:toptop/widgets/ButtonEditProfile.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/FavoriteVideos.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/LikeVideo.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/MyVideos.dart';
+import 'package:toptop/widgets/ButtonEditProfile_widget.dart';
 
 class ProFilePage extends StatefulWidget {
   const ProFilePage({super.key});
@@ -14,14 +14,18 @@ class ProFilePage extends StatefulWidget {
 class _ProFilePageState extends State<ProFilePage>
     with TickerProviderStateMixin {
   bool isBio = false; //biến check để hiện thị mô tả hoặc thêm mô tả thông tin
+  ScrollController scrollController = ScrollController();
+  TabController? tabController;
+
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     return Scaffold(
       body: FutureBuilder(
           future: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return SingleChildScrollView(
+              controller: scrollController,
               child: Column(
                 children: [
                   //thanh menu
@@ -126,7 +130,7 @@ class _ProFilePageState extends State<ProFilePage>
                             Text("Follower",
                                 style: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 15,
+                            fontSize: 15,
                                 ))
                           ],
                         ),
