@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toptop/views/screens/MainPage.dart';
 import 'package:toptop/views/screens/addcameratab/CameraPage.dart';
 import 'package:toptop/views/screens/profiletab/ProfilePage.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/EditProfile.dart';
 import 'package:toptop/views/tablogins/LoginPage.dart';
 
 late List<CameraDescription> cameras;

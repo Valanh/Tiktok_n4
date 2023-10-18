@@ -19,7 +19,7 @@ class _ForyouSceneState extends State<ForyouScene> {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            VideoTile(),
+            // VideoTile(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

@@ -3,7 +3,6 @@ import 'package:video_player/video_player.dart';
 
 class VideoTile extends StatefulWidget {
   const VideoTile({super.key});
-
   @override
   State<VideoTile> createState() => _VideoTileState();
 }

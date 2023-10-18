@@ -10,6 +10,24 @@ class Editprofileitem extends StatefulWidget {
 class _EditprofileitemState extends State<Editprofileitem> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 30,),
+          Row(children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+              child: Text("Cancel"),
+            )
+          ],)
+        ],
+      ),
+    );
   }
 }
