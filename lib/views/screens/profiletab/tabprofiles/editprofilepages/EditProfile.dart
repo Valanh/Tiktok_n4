@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toptop/views/screens/profiletab/ProfilePage.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/Editprofileitem.dart';
 
 class EditProifilePage extends StatefulWidget {
@@ -37,9 +36,16 @@ class _EditProifilePageState extends State<EditProifilePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.arrow_back_ios_new,
-                    size: 15,
+                  GestureDetector(
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width - 40,
@@ -75,8 +81,8 @@ class _EditProifilePageState extends State<EditProifilePage> {
                 style: styleLable,
               ),
             ),
-            _editItemSelect(style, "Thông tin", "Name", Editprofileitem()),
-            _editItemSelect(style, "Thông tin", "Username", Editprofileitem()),
+            _editItemSelect(style, "Thông tin", "Name", Editprofileitem(title: "Name",)),
+            _editItemSelect(style, "Thông tin", "Username", Editprofileitem(title: "Username",)),
             Padding(
               padding: const EdgeInsets.only(bottom: 10,right: 15),
               child: Row(
@@ -95,7 +101,7 @@ class _EditProifilePageState extends State<EditProifilePage> {
                 ],
               ),
             ), // Link tiktok đang phát triển
-            _editItemSelect(style, "Thông tin", "Bio", Editprofileitem()),
+            _editItemSelect(style, "Thông tin", "Bio", Editprofileitem(title: "Bio",)),
             SizedBox(
               height: 20,
             ),

@@ -14,6 +14,7 @@ class _ForyouSceneState extends State<ForyouScene> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      scrollDirection: Axis.vertical,
       itemCount: 5,
       itemBuilder: (BuildContext context, int index) {
         return Stack(

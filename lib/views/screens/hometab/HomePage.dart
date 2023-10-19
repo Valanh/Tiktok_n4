@@ -25,6 +25,7 @@ class _HomeSceneState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
+    _tabController.index = 2;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

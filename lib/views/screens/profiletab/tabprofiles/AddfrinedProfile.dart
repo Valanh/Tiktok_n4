@@ -10,6 +10,12 @@ class AddfrinedProfile extends StatefulWidget {
 class _AddfrinedProfileState extends State<AddfrinedProfile> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        alignment: Alignment.center,
+        child: Text("đang phát triển"),
+      ),
+    );
   }
 }
