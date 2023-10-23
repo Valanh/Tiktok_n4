@@ -40,7 +40,6 @@ class AuthService {
         //print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print(e.code);
-
         getSnackBar(
             'Login', 'Wrong password provided for that user.', Colors.red)
             .show(context);
@@ -57,7 +56,7 @@ class AuthService {
       await storage.deleteAll();
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
             (route) => false,
       );
       getSnackBar(
