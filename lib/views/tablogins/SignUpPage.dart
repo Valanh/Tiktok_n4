@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toptop/models/services/Auth_Service.dart';
+import 'package:toptop/widgets/SnackBar_widget.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -32,7 +34,18 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  // doRegister(BuildContext context) {
+  doRegister(BuildContext context) {
+    if(validate()){
+      AuthService.registerFetch(
+          context: context,
+          email: emailController.text,
+          password: passwordController.text,
+          fullName: nameController.text,
+          uid: ''
+      );
+    }
+  }
+
   bool validate() {
     if (nameController.text.isNotEmpty && emailController.text.isNotEmpty && passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty) {
       return true;
@@ -88,7 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   // doRegister(context);
                   setState(() {
-                    kq = "Email: " + emailController.text.toString()+ " Mật khẩu: " +passwordController.text.toString();
+                    doRegister(context);
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -143,8 +156,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             obscureText: true,
           ),
-          const SizedBox(height: 20),
-          Text(kqa),
           const SizedBox(height: 20),
         ],
       ),
