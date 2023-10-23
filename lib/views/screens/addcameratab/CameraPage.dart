@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toptop/views/screens/addcameratab/VideoSS.dart';
 
 import '../../../main.dart';
 
@@ -16,7 +17,7 @@ class _CameraPageState extends State<CameraPage> {
       cameras.first, ResolutionPreset.medium,
       enableAudio: false);
   PageController _pageController =
-  PageController(initialPage: 1, viewportFraction: 0.2);
+      PageController(initialPage: 1, viewportFraction: 0.2);
   int SelectTap = 1;
   bool _isRecording = false;
   bool _isVideoRC = false;
@@ -85,7 +86,7 @@ class _CameraPageState extends State<CameraPage> {
                         )),
                     Container(
                       padding:
-                      EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                          EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                       decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.25),
                           borderRadius: BorderRadius.circular(20)),
@@ -102,11 +103,11 @@ class _CameraPageState extends State<CameraPage> {
                           Text(
                             "Add Sound",
                             style:
-                            Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 11,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontSize: 11,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                           )
                         ],
                       ),
@@ -146,9 +147,9 @@ class _CameraPageState extends State<CameraPage> {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          // !_isRecording
-                          //     ? _onRecordVideoPressed()
-                          //     : _offRecordVideoPressed();
+                          !_isRecording
+                              ? _onRecordVideoPressed()
+                              : _offRecordVideoPressed();
                         },
                         style: ElevatedButton.styleFrom(
                             fixedSize: const Size(70, 70),
@@ -268,45 +269,45 @@ class _CameraPageState extends State<CameraPage> {
     );
   }
 
-// //quay video
-// Future<XFile?> captureVideo() async {
-//   final CameraController? cameraController = _cameraController;
-//   try {
-//     final video = await cameraController?.stopVideoRecording();
-//     setState(() {
-//       _isRecording = false;
-//     });
-//     return video;
-//   } on CameraException catch (e) {
-//     debugPrint('Error occured while taking picture: $e');
-//     return null;
-//   }
-// }
-//
-// void _onRecordVideoPressed() async {
-//   final CameraController? cameraController = _cameraController;
-//   try {
-//     setState(() {
-//       _isRecording = true;
-//     });
-//     await cameraController?.startVideoRecording();
-//   } on CameraException catch (e) {
-//     debugPrint('Error occured while taking picture: $e');
-//   }
-// }
-//
-// void _offRecordVideoPressed() async {
-//   final navigator = Navigator.of(context);
-//   final xFile = await captureVideo();
-//   if (xFile != null) {
-//     final String pathVd = xFile.path;
-//     if (pathVd.isNotEmpty) {
-//       navigator.push(
-//         MaterialPageRoute(
-//           builder: (context) => VideoSS(urls: pathVd),
-//         ),
-//       );
-//     }
-//   }
-// }
+  //quay video
+  Future<XFile?> captureVideo() async {
+    final CameraController? cameraController = _cameraController;
+    try {
+      final video = await cameraController?.stopVideoRecording();
+      setState(() {
+        _isRecording = false;
+      });
+      return video;
+    } on CameraException catch (e) {
+      debugPrint('Error occured while taking picture: $e');
+      return null;
+    }
+  }
+
+  void _onRecordVideoPressed() async {
+    final CameraController? cameraController = _cameraController;
+    try {
+      setState(() {
+        _isRecording = true;
+      });
+      await cameraController?.startVideoRecording();
+    } on CameraException catch (e) {
+      debugPrint('Error occured while taking picture: $e');
+    }
+  }
+
+  void _offRecordVideoPressed() async {
+    final navigator = Navigator.of(context);
+    final xFile = await captureVideo();
+    if (xFile != null) {
+      final String pathVd = xFile.path;
+      if (pathVd.isNotEmpty) {
+        navigator.push(
+          MaterialPageRoute(
+            builder: (context) => VideoSS(url: pathVd),
+          ),
+        );
+      }
+    }
+  }
 }

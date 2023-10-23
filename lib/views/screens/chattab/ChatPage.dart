@@ -10,6 +10,26 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+                  itemCount: 30,
+                  itemBuilder: (context, index) {
+                    return Text("lành");
+                  })
+          ),
+          Row(
+            children: [
+              TextField(),
+              IconButton.outlined(onPressed: () {
+
+              }, icon: Icon(Icons.send_rounded))
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

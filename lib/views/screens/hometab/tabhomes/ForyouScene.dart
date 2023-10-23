@@ -20,16 +20,23 @@ class _ForyouSceneState extends State<ForyouScene> {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            // VideoTile(),
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black,
+                child: VideoTile()),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 //tạo một vieo hiển thị video ở đây
-                Expanded(flex: 3, child: Container(
-                  height: MediaQuery.of(context).size.height / 4,
-                  child: VideoDetail(),
-                )),
-                Expanded(child: Container(
+                Expanded(
+                    flex: 3,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 4,
+                      child: VideoDetail(),
+                    )),
+                Expanded(
+                    child: Container(
                   height: MediaQuery.of(context).size.height / 1.75,
                   child: HomeSideBar(),
                 )),
