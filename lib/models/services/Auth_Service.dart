@@ -8,11 +8,10 @@ import '../../widgets/SnackBar_widget.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
-
   static loginFetch(
       {required BuildContext context,
-        required email,
-        required password}) async {
+      required email,
+      required password}) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -24,12 +23,7 @@ class AuthService {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
-              (route) => false);
-      getSnackBar(
-        'Login',
-        'Login Success.',
-        Colors.green,
-      ).show(context);
+          (route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         getSnackBar(
@@ -41,13 +35,12 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         print(e.code);
         getSnackBar(
-            'Login', 'Wrong password provided for that user.', Colors.red)
+                'Login', 'Wrong password provided for that user.', Colors.red)
             .show(context);
         //print('Wrong password provided for that user.');
       }
     }
   }
-
 
   static Logout({required BuildContext context}) async {
     try {
@@ -57,7 +50,7 @@ class AuthService {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
-            (route) => false,
+        (route) => false,
       );
       getSnackBar(
         'Logout',
@@ -69,10 +62,10 @@ class AuthService {
 
   static registerFetch(
       {required BuildContext context,
-        required email,
-        required password,
-        required fullName,
-        required uid}) async {
+      required email,
+      required password,
+      required fullName,
+      required uid}) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -80,7 +73,8 @@ class AuthService {
           UID: userCredential.user?.uid, fullName: fullName, email: email);
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (route) => false,
       );
       getSnackBar(
         'Register',

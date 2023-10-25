@@ -32,6 +32,12 @@ class _ProFilePageState extends State<ProFilePage>
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
+
+            if(snapshot.data.get('bio').toString() == "None"){
+              isBio = false;
+            }else{
+              isBio = true;
+            }
             return SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -75,6 +81,8 @@ class _ProFilePageState extends State<ProFilePage>
                         width: 70,
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
+                          backgroundImage:
+                          NetworkImage(snapshot.data.get('avartaURL').toString()),
                         ),
                       ),
                       Positioned(
@@ -89,6 +97,7 @@ class _ProFilePageState extends State<ProFilePage>
                               )))
                     ],
                   ),
+
                   SizedBox(
                     height: 5,
                   ),
@@ -142,7 +151,7 @@ class _ProFilePageState extends State<ProFilePage>
                             Text("Follower",
                                 style: TextStyle(
                                   color: Colors.grey,
-                            fontSize: 15,
+                                  fontSize: 15,
                                 ))
                           ],
                         ),
@@ -211,7 +220,7 @@ class _ProFilePageState extends State<ProFilePage>
                       ),
                     ),
                   if (isBio)
-                    Text("mô tả",
+                    Text("${snapshot.data.get('bio')}",
                         style: TextStyle(fontSize: 9, color: Colors.black)),
                   SizedBox(
                     height: 5,

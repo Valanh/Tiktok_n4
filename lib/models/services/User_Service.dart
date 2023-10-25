@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toptop/views/screens/MainPage.dart';
+import 'package:toptop/views/screens/profiletab/ProfilePage.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/EditProfile.dart';
 
 import '../../widgets/SnackBar_widget.dart';
 
@@ -46,50 +48,47 @@ class UserService {
                 'https://iotcdn.oss-ap-southeast-1.aliyuncs.com/RpN655D.png',
             'phone': 'None',
             'age': 'None',
-            'gender': 'None',
+            'bio': 'None',
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     } catch (e) {}
   }
+
   //Edit userInfo in firestore cloud
-  // static editUserFetch(
-  //     {required BuildContext context,
-  //       required age,
-  //       required gender,
-  //       required phone,
-  //       required fullName}) async {
-  //   try {
-  //     CollectionReference users =
-  //     FirebaseFirestore.instance.collection('users');
-  //     final storage = const FlutterSecureStorage();
-  //     String? UID = await storage.read(key: 'uID');
-  //     users
-  //         .doc(UID)
-  //         .update({
-  //       'fullName': fullName,
-  //       'age': age,
-  //       'phone': phone,
-  //       'gender': gender,
-  //     })
-  //         .then((value) => print("User Updated"))
-  //         .catchError((error) => print("Failed to update user: $error"));
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => const MainPage()),
-  //     );
-  //     getSnackBar(
-  //       'Edit Info',
-  //       'Edit Success.',
-  //       Colors.green,
-  //     ).show(context);
-  //   } catch (e) {
-  //     getSnackBar(
-  //       'Edit Info',
-  //       'Edit Fail. $e',
-  //       Colors.red,
-  //     ).show(context);
-  //     print(e);
-  //   }
-  // }
+  static editUserFetch({
+    required BuildContext context,
+    required String collums,
+    required String values,
+  }) async {
+    try {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      final storage = const FlutterSecureStorage();
+      String? UID = await storage.read(key: 'uID');
+      users
+          .doc(UID)
+          .update({
+            collums: values,
+          })
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) =>  EditProifilePage()),
+          (router) => true);
+      getSnackBar(
+        'Edit $collums',
+        'Edit Success.',
+        Colors.green,
+      ).show(context);
+    } catch (e) {
+      getSnackBar(
+        'Edit $collums',
+        'Edit Fail. $e',
+        Colors.red,
+      ).show(context);
+      print(e);
+    }
+  }
 }

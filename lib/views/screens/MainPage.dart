@@ -8,8 +8,7 @@ import 'package:toptop/views/screens/shoptabs/ShopPage.dart';
 import '../../widgets/cusstom_icon_add.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
+  MainPage({Key? key}): super(key: key);
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -85,13 +84,14 @@ class _MainPageState extends State<MainPage> {
               _scenSelectSC = value;
             } else {
               //open camera
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                       fullscreenDialog: true,
                       builder: (context) {
                         return CameraPage();
-                      }));
+                      }),
+                  (route) => false);
             }
           });
         },

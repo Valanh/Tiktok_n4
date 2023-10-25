@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoTile extends StatefulWidget {
-  const VideoTile({super.key});
-
+  const VideoTile({super.key/*, index */});
   @override
   State<VideoTile> createState() => _VideoTileState();
+  //index
 }
 
 class _VideoTileState extends State<VideoTile> {
   late VideoPlayerController _videoPlayerController;
   late Future _future;
   bool isPause = false;
-
+  //đói tượng video
   @override
   void initState() {
     _videoPlayerController =

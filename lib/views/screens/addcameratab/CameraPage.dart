@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toptop/views/screens/MainPage.dart';
 import 'package:toptop/views/screens/addcameratab/VideoSS.dart';
 
 import '../../../main.dart';
@@ -78,7 +79,16 @@ class _CameraPageState extends State<CameraPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                        onTap: () => {Navigator.pop(context)},
+                        onTap: () => {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) {
+                                        return MainPage();
+                                      }),
+                                  (route) => false)
+                            },
                         child: Icon(
                           Icons.close,
                           color: Colors.white,

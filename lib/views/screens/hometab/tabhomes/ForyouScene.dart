@@ -24,7 +24,7 @@ class _ForyouSceneState extends State<ForyouScene> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 color: Colors.black,
-                child: VideoTile()),
+                child: VideoTile(/* index */)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

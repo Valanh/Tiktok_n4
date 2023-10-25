@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toptop/models/services/User_Service.dart';
+import 'package:toptop/views/screens/MainPage.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/Editprofileitem.dart';
 
 class EditProifilePage extends StatefulWidget {
@@ -23,182 +25,253 @@ class _EditProifilePageState extends State<EditProifilePage> {
           fontWeight: FontWeight.bold,
           color: Colors.black.withOpacity(0.6),
         );
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //title
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 15,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        Navigator.pop(context);
-                      });
-                    },
+    return FutureBuilder(
+      future: UserService.getUserInfo(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //title
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 15,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage()),
+                                (route) => false);
+                          });
+                        },
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 40,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Edit profile",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(fontSize: 20, color: Colors.black),
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 40,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Edit profile",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 20, color: Colors.black),
-                    ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 50, bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _profileButtonEdit("Change photo", style),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      _profileButtonEdit("Change video", style),
+                    ],
                   ),
-                ],
-              ),
+                ), //chức năng thay đổi ảnh profile
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Text(
+                    "About you",
+                    style: styleLable,
+                  ),
+                ),
+                _editItemSelect(
+                    style,
+                    "${snapshot.data.get('fullName')}",
+                    "Name",
+                    Editprofileitem(
+                      title: "Name",
+                      Collums: "fullName",
+                      valueText: "${snapshot.data.get('fullName')}",
+                    )),
+                _editItemSelect(
+                    style,
+                    "${snapshot.data.get('email')}",
+                    "Email",
+                    Editprofileitem(
+                      title: "Email",
+                      Collums: "email",
+                      valueText: "${snapshot.data.get('email')}",
+                    )),
+
+                _editItemSelect(
+                    style,
+                    snapshot.data.get('age').toString() == "None"
+                        ? ""
+                        : "${snapshot.data.get('age')}",
+                    "Age",
+                    Editprofileitem(
+                      title: "Age",
+                      Collums: "age",
+                      valueText: snapshot.data.get('age').toString() == "None"
+                          ? ""
+                          : "${snapshot.data.get('age')}",
+                    )),
+                _editItemSelect(
+                    style,
+                    snapshot.data.get('phone').toString() == "None"
+                        ? ""
+                        : "${snapshot.data.get('phone')}",
+                    "Phone",
+                    Editprofileitem(
+                      title: "Phone",
+                      Collums: "phone",
+                      valueText: snapshot.data.get('phone').toString() == "None"
+                          ? ""
+                          : "${snapshot.data.get('phone')}",
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10, right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "https://www.tiktok.com/@ttruc.__",
+                        style: style,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Icon(
+                        Icons.copy_rounded,
+                        size: 15,
+                      ),
+                    ],
+                  ),
+                ), // Link tiktok đang phát triển
+                _editItemSelect(
+                    style,
+                    snapshot.data.get('bio').toString() == "None"
+                        ? ""
+                        : "${snapshot.data.get('bio')}",
+                    "Bio",
+                    Editprofileitem(
+                        title: "Bio",
+                        Collums: "bio",
+                        valueText: snapshot.data.get('bio').toString() == "None"
+                            ? ""
+                            : "${snapshot.data.get('bio')}")),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(color: Colors.grey.withOpacity(0.5)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Text(
+                    "Social",
+                    style: styleLable,
+                  ),
+                ),
+                _editItemSelect(
+                    style,
+                    "Add Instagram",
+                    "Instagram",
+                    Scaffold(
+                      appBar: AppBar(),
+                      body: Container(
+                        alignment: Alignment.center,
+                        child: Text("đang phát triển"),
+                      ),
+                    )),
+                _editItemSelect(
+                    style,
+                    "Add Youtobe",
+                    "Youtobe",
+                    Scaffold(
+                      appBar: AppBar(),
+                      body: Container(
+                        alignment: Alignment.center,
+                        child: Text("đang phát triển"),
+                      ),
+                    )),
+                _editItemSelect(
+                    style,
+                    "Add Twitter",
+                    "Twitter",
+                    Scaffold(
+                      appBar: AppBar(),
+                      body: Container(
+                        alignment: Alignment.center,
+                        child: Text("đang phát triển"),
+                      ),
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(
+                  color: Colors.grey.withOpacity(0.5),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Text(
+                    "Change display order",
+                    style: styleLable,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Your orders",
+                        style: style,
+                      ),
+                      Icon(
+                        Icons.menu,
+                        size: 15,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Add yours",
+                        style: style,
+                      ),
+                      Icon(
+                        Icons.menu,
+                        size: 15,
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
-            Container(
-              padding: EdgeInsets.only(top: 50, bottom: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _profileButtonEdit("Change photo", style),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  _profileButtonEdit("Change video", style),
-                ],
-              ),
-            ), //chức năng thay đổi ảnh profile
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              child: Text(
-                "About you",
-                style: styleLable,
-              ),
-            ),
-            _editItemSelect(style, "Thông tin", "Name", Editprofileitem(title: "Name",)),
-            _editItemSelect(style, "Thông tin", "Username", Editprofileitem(title: "Username",)),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10,right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "link tik tok của bạn",
-                    style: style,
-                  ),
-                  SizedBox(width: 15,),
-                  Icon(
-                    Icons.copy_rounded,
-                    size: 15,
-                  ),
-                ],
-              ),
-            ), // Link tiktok đang phát triển
-            _editItemSelect(style, "Thông tin", "Bio", Editprofileitem(title: "Bio",)),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(color: Colors.grey.withOpacity(0.5)),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              child: Text(
-                "Social",
-                style: styleLable,
-              ),
-            ),
-            _editItemSelect(
-                style,
-                "Add Instagram",
-                "Instagram",
-                Scaffold(
-                  appBar: AppBar(),
-                  body: Container(
-                    alignment: Alignment.center,
-                    child: Text("đang phát triển"),
-                  ),
-                )),
-            _editItemSelect(
-                style,
-                "Add Youtobe",
-                "Youtobe",
-                Scaffold(
-                  appBar: AppBar(),
-                  body: Container(
-                    alignment: Alignment.center,
-                    child: Text("đang phát triển"),
-                  ),
-                )),
-            _editItemSelect(
-                style,
-                "Add Twitter",
-                "Twitter",
-                Scaffold(
-                  appBar: AppBar(),
-                  body: Container(
-                    alignment: Alignment.center,
-                    child: Text("đang phát triển"),
-                  ),
-                )),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              color: Colors.grey.withOpacity(0.5),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              child: Text(
-                "Change display order",
-                style: styleLable,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Your orders",
-                    style: style,
-                  ),
-                  Icon(
-                    Icons.menu,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Add yours",
-                    style: style,
-                  ),
-                  Icon(
-                    Icons.menu,
-                    size: 15,
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -262,10 +335,9 @@ class _EditProifilePageState extends State<EditProifilePage> {
       padding: EdgeInsets.only(bottom: 15),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,elevation: 0
-        ),
+            backgroundColor: Colors.transparent, elevation: 0),
         onPressed: () {
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => mh));
+          if(itemName != "Email")Navigator.push(context, MaterialPageRoute(builder: (context) => mh));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

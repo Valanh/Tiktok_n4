@@ -7,6 +7,6 @@ Flushbar getSnackBar(String text, String message, Color color) => Flushbar(
   flushbarPosition: FlushbarPosition.TOP,
   titleColor: color,
   backgroundColor: Colors.black.withOpacity(0.7),
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   borderRadius: BorderRadius.circular(15),
 );
