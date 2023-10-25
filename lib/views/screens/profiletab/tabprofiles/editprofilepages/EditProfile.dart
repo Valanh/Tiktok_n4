@@ -269,9 +269,10 @@ class _EditProifilePageState extends State<EditProifilePage> {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent, elevation: 0),
         onPressed: () {
-          if (itemName != "Email")
+          if (itemName != "Email"){
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => mh));
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
