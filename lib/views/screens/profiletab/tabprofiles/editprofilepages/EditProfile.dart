@@ -1,12 +1,12 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toptop/models/services/User_Service.dart';
-import 'package:toptop/views/screens/MainPage.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/Editprofileitem.dart';
+
 
 class EditProifilePage extends StatefulWidget {
   const EditProifilePage({super.key});
-
   @override
   State<EditProifilePage> createState() => _EditProifilePageState();
 }
@@ -54,11 +54,7 @@ class _EditProifilePageState extends State<EditProifilePage> {
                         ),
                         onTap: () {
                           setState(() {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainPage()),
-                                (route) => false);
+                            Navigator.pop(context);
                           });
                         },
                       ),
@@ -76,19 +72,7 @@ class _EditProifilePageState extends State<EditProifilePage> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 50, bottom: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _profileButtonEdit("Change photo", style),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      _profileButtonEdit("Change video", style),
-                    ],
-                  ),
-                ), //chức năng thay đổi ảnh profile
+                SizedBox(height: 30,),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 20),
                   child: Text(
@@ -275,58 +259,6 @@ class _EditProifilePageState extends State<EditProifilePage> {
     );
   }
 
-  _profileButtonEdit(String key, TextStyle style) {
-    if (key == "Change photo") {
-      CheckIcon = true;
-    } else {
-      CheckIcon = false;
-    }
-    return Column(
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            if (CheckIcon)
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(50),
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/imagedemo.jpg"),
-                        fit: BoxFit.cover)),
-              ),
-            if (!CheckIcon)
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey),
-              ),
-            Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              child: Icon(
-                CheckIcon
-                    ? Icons.camera_alt_outlined
-                    : Icons.video_camera_back_outlined,
-                size: 30,
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-        Text(
-          "$key",
-          style: style,
-        ),
-      ],
-    );
-  }
 
   //đang cần nâng cấp sau
   _editItemSelect(TextStyle style, String value, String itemName, Widget mh) {
@@ -337,7 +269,9 @@ class _EditProifilePageState extends State<EditProifilePage> {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent, elevation: 0),
         onPressed: () {
-          if(itemName != "Email")Navigator.push(context, MaterialPageRoute(builder: (context) => mh));
+          if (itemName != "Email")
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => mh));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

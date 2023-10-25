@@ -20,11 +20,11 @@ class _ForyouSceneState extends State<ForyouScene> {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.black,
-                child: VideoTile(/* index */)),
+            // Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     height: MediaQuery.of(context).size.height,
+            //     color: Colors.black,
+            //     child: VideoTile(/* index */)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

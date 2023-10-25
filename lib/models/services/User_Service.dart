@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:toptop/views/screens/MainPage.dart';
-import 'package:toptop/views/screens/profiletab/ProfilePage.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/editprofilepages/EditProfile.dart';
 
 import '../../widgets/SnackBar_widget.dart';
@@ -74,8 +72,8 @@ class UserService {
           .then((value) => print("User Updated"))
           .catchError((error) => print("Failed to update user: $error"));
       Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) =>  EditProifilePage()),
+          context,
+          MaterialPageRoute(builder: (context) => EditProifilePage()),
           (router) => true);
       getSnackBar(
         'Edit $collums',
@@ -89,6 +87,35 @@ class UserService {
         Colors.red,
       ).show(context);
       print(e);
+    }
+  }
+
+  //Edit user's Image
+  static editUserImage(
+      {required BuildContext context, required ImageStorageLink}) async {
+    try {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      final storage = const FlutterSecureStorage();
+      String? UID = await storage.read(key: 'uID');
+      users
+          .doc(UID)
+          .update({
+            'avartaURL': ImageStorageLink,
+          })
+          .then((value) => print("User's Image Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+      getSnackBar(
+        'Edit Image',
+        'Edit Success.',
+        Colors.green,
+      ).show(context);
+    } catch (e) {
+      getSnackBar(
+        'Edit Image',
+        'Edit Fail. $e',
+        Colors.red,
+      ).show(context);
     }
   }
 }

@@ -1,10 +1,18 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:toptop/models/services/Auth_Service.dart';
 import 'package:toptop/models/services/User_Service.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/FavoriteVideos.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/LikeVideo.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/MyVideos.dart';
 import 'package:toptop/widgets/ButtonEditProfile_widget.dart';
+import 'package:toptop/widgets/SnackBar_widget.dart';
+
+import '../../../models/services/Storage_services.dart';
 
 class ProFilePage extends StatefulWidget {
   const ProFilePage({super.key});
@@ -32,10 +40,9 @@ class _ProFilePageState extends State<ProFilePage>
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            if(snapshot.data.get('bio').toString() == "None"){
+            if (snapshot.data.get('bio').toString() == "None") {
               isBio = false;
-            }else{
+            } else {
               isBio = true;
             }
             return SingleChildScrollView(
@@ -81,23 +88,24 @@ class _ProFilePageState extends State<ProFilePage>
                         width: 70,
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
-                          backgroundImage:
-                          NetworkImage(snapshot.data.get('avartaURL').toString()),
+                          // backgroundImage: NetworkImage(
+                          //     snapshot.data.get('avartaURL').toString()),
                         ),
                       ),
                       Positioned(
-                          bottom: -10,
-                          right: -10,
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.upload,
-                                color: Colors.pink,
-                                size: 20,
-                              )))
+                        bottom: -10,
+                        right: -10,
+                        child: IconButton(
+                            onPressed: () {
+                            },
+                            icon: Icon(
+                              Icons.add_circle,
+                              color: Colors.blue,
+                              size: 20,
+                            )),
+                      )
                     ],
                   ),
-
                   SizedBox(
                     height: 5,
                   ),
