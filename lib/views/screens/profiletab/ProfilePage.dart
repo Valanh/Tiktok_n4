@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toptop/models/services/Auth_Service.dart';
+import 'package:toptop/models/services/User_Service.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/FavoriteVideos.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/LikeVideo.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/MyVideos.dart';
@@ -22,8 +24,14 @@ class _ProFilePageState extends State<ProFilePage>
     tabController = TabController(length: 3, vsync: this);
     return Scaffold(
       body: FutureBuilder(
-          future: null,
+          future: UserService.getUserInfo(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
             return SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -41,12 +49,16 @@ class _ProFilePageState extends State<ProFilePage>
                           )),
                       //Tên người dùng
                       Text(
-                        "Tên người dùng",
+                        snapshot.data.get('fullName').toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              AuthService.Logout(context: context);
+                            });
+                          },
                           icon: Icon(
                             Icons.logout,
                             color: Colors.pink,
@@ -82,7 +94,7 @@ class _ProFilePageState extends State<ProFilePage>
                   ),
                   //thông tin Email
                   Text(
-                    "Username",
+                    snapshot.data.get('email').toString(),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   SizedBox(
@@ -99,7 +111,7 @@ class _ProFilePageState extends State<ProFilePage>
                         child: Column(
                           children: [
                             Text(
-                              "1",
+                              snapshot.data.get('following').length.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
@@ -123,7 +135,7 @@ class _ProFilePageState extends State<ProFilePage>
                         child: Column(
                           children: [
                             Text(
-                              "1",
+                              snapshot.data.get('follower').length.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
@@ -147,7 +159,7 @@ class _ProFilePageState extends State<ProFilePage>
                         child: Column(
                           children: [
                             Text(
-                              "1",
+                              "1.2M",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
