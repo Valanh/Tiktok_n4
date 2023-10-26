@@ -9,6 +9,7 @@ import 'package:toptop/providers/loading_modle.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/FavoriteVideos.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/LikeVideo.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/MyVideos.dart';
+import 'package:toptop/views/screens/profiletab/tabprofiles/tabuserfollows/UserFollows.dart';
 import 'package:toptop/widgets/ButtonEditProfile_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -179,29 +180,36 @@ class _ProFilePageState extends State<ProFilePage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //Following
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.all(5),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.15,
-                        child: Column(
-                          children: [
-                            Text(
-                              snapshot.data
-                                  .get('following')
-                                  .length
-                                  .toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ), //số lượng
-                            Text(
-                              "Following",
-                              style:
-                              TextStyle(color: Colors.grey, fontSize: 15),
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserFollow(indexCheckFLing: true)));
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.all(5),
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.15,
+                          child: Column(
+                            children: [
+                              Text(
+                                snapshot.data
+                                    .get('following')
+                                    .length
+                                    .toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ), //số lượng
+                              Text(
+                                "Following",
+                                style:
+                                TextStyle(color: Colors.grey, fontSize: 15),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Text(
@@ -209,29 +217,36 @@ class _ProFilePageState extends State<ProFilePage>
                         style: TextStyle(
                             color: Colors.grey.withOpacity(0.8), fontSize: 10),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.all(5),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.15,
-                        child: Column(
-                          children: [
-                            Text(
-                              snapshot.data
-                                  .get('follower')
-                                  .length
-                                  .toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ), //số lượng
-                            Text("Follower",
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserFollow(indexCheckFLing: false)));
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.all(5),
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.15,
+                          child: Column(
+                            children: [
+                              Text(
+                                snapshot.data
+                                    .get('follower')
+                                    .length
+                                    .toString(),
                                 style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 15,
-                                ))
-                          ],
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ), //số lượng
+                              Text("Follower",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 15,
+                                  ))
+                            ],
+                          ),
                         ),
                       ),
                       Text(
