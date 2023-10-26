@@ -1,12 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toptop/models/services/Auth_Service.dart';
+import 'package:toptop/models/services/Storage_services.dart';
 import 'package:toptop/models/services/User_Service.dart';
+import 'package:toptop/providers/loading_modle.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/FavoriteVideos.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/LikeVideo.dart';
 import 'package:toptop/views/screens/profiletab/tabprofiles/MyVideos.dart';
 import 'package:toptop/widgets/ButtonEditProfile_widget.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProFilePage extends StatefulWidget {
   const ProFilePage({super.key});
@@ -20,6 +26,24 @@ class _ProFilePageState extends State<ProFilePage>
   bool isBio = false; //biến check để hiện thị mô tả hoặc thêm mô tả thông tin
   ScrollController scrollController = ScrollController();
   TabController? tabController;
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+  Future<File?> getImage() async {
+    var picker = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (picker != null) {
+      File? imageFile = File(picker.path);
+      return imageFile;
+    }
+    return null;
+  }
+
+  Stream<QuerySnapshot> getUserImage() async* {
+    final currentUserID = FirebaseAuth.instance.currentUser?.uid;
+    yield* FirebaseFirestore.instance
+        .collection('users')
+        .where('uID', isEqualTo: currentUserID)
+        .snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,31 +98,71 @@ class _ProFilePageState extends State<ProFilePage>
                     ],
                   ),
                   //ảnh Profile
-                  Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      SizedBox(
-                        height: 70,
-                        width: 70,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          // backgroundImage: NetworkImage(
-                          //     snapshot.data.get('avartaURL').toString()),
+                  SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: getUserImage(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return const Text('Something went wrong');
+                                }
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return Consumer<LoadingModel>(
+                                  builder: (_, isLoadingImage, __) {
+                                    if (isLoadingImage.isLoading) {
+                                      return const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    } else {
+                                      return CircleAvatar(
+                                        backgroundColor: Colors.black,
+                                        backgroundImage: NetworkImage(snapshot
+                                            .data?.docs.first['avartaURL']),
+                                      );
+                                    }
+                                  },
+                                );
+                              }),
                         ),
-                      ),
-                      Positioned(
-                        bottom: -10,
-                        right: -10,
-                        child: IconButton(
-                            onPressed: () {
+                        Positioned(
+                          bottom: -10,
+                          right: -10,
+                          child: IconButton(
+                            onPressed: () async {
+                              context.read<LoadingModel>().changeLoading();
+                              File? fileImage = await getImage();
+                              if (fileImage == null) {
+                                context.read<LoadingModel>().changeLoading();
+                              } else {
+                                String fileName =
+                                await StorageServices.uploadImage(fileImage);
+                                UserService.editUserImage(
+                                    context: context, ImageStorageLink: fileName);
+                                context.read<LoadingModel>().changeLoading();
+                              }
                             },
                             icon: Icon(
                               Icons.add_circle,
                               color: Colors.blue,
-                              size: 20,
-                            )),
-                      )
-                    ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 5,
@@ -118,18 +182,24 @@ class _ProFilePageState extends State<ProFilePage>
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.15,
                         child: Column(
                           children: [
                             Text(
-                              snapshot.data.get('following').length.toString(),
+                              snapshot.data
+                                  .get('following')
+                                  .length
+                                  .toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
                             Text(
                               "Following",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 15),
+                              TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
@@ -142,11 +212,17 @@ class _ProFilePageState extends State<ProFilePage>
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.15,
                         child: Column(
                           children: [
                             Text(
-                              snapshot.data.get('follower').length.toString(),
+                              snapshot.data
+                                  .get('follower')
+                                  .length
+                                  .toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ), //số lượng
@@ -166,7 +242,10 @@ class _ProFilePageState extends State<ProFilePage>
                       Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.15,
                         child: Column(
                           children: [
                             Text(
@@ -242,7 +321,7 @@ class _ProFilePageState extends State<ProFilePage>
                           ),
                           label: Text("Your orders",
                               style:
-                                  TextStyle(fontSize: 10, color: Colors.black)),
+                              TextStyle(fontSize: 10, color: Colors.black)),
                         ),
                       ),
                       SizedBox(
@@ -260,7 +339,7 @@ class _ProFilePageState extends State<ProFilePage>
                           ),
                           label: Text("Add yours",
                               style:
-                                  TextStyle(fontSize: 10, color: Colors.black)),
+                              TextStyle(fontSize: 10, color: Colors.black)),
                         ),
                       ),
                     ],
@@ -270,7 +349,10 @@ class _ProFilePageState extends State<ProFilePage>
                     margin: EdgeInsets.only(top: 5),
                     alignment: Alignment.center,
                     height: 30,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TabBar(
                       indicatorSize: TabBarIndicatorSize.label,
                       controller: tabController,
@@ -302,8 +384,14 @@ class _ProFilePageState extends State<ProFilePage>
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height,
                     child: TabBarView(
                       controller: tabController,
                       children: const [
