@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -308,13 +310,13 @@ class _CameraPageState extends State<CameraPage> {
 
   void _offRecordVideoPressed() async {
     final navigator = Navigator.of(context);
-    final xFile = await captureVideo();
-    if (xFile != null) {
-      final String pathVd = xFile.path;
+    final file = await captureVideo();
+    if (file != null) {
+      final String pathVd = file.path;
       if (pathVd.isNotEmpty) {
         navigator.push(
           MaterialPageRoute(
-            builder: (context) => VideoSS(url: pathVd),
+            builder: (context) => VideoSS(url: pathVd,file: file),
           ),
         );
       }
